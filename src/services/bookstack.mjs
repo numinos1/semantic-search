@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * Bookstack Class
+ * Bookstack Service
  */
 export default class Bookstack {
 

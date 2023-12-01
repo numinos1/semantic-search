@@ -2,7 +2,13 @@
 
 ## Bootstrap the Project
 
-1. Create .env file with the following information
+### Install NPM Packages
+
+```bash
+yarn install
+```
+
+### Create an .env file with the following params
 
 ```conf
 POSTGRES_DB=<database-name>
@@ -16,23 +22,23 @@ BOOKSTACK_TOKEN_SECRET=<bookstack-token-secret>
 BOOKSTACK_HOST=<bookstack-host-uri>
 ```
 
-2. Create the Postgres data directory
+### Create the Postgres data directory
 
 ```bash
 mkdir data
 ```
 
-2. Start the Postgres Docker instance
+### Start the Postgres Docker instance
 
 ```bash
 docker-compose up -d
 ```
 
-3. Postgres Docker "exec" Terminal Client
+### Postgres Docker "exec" Terminal Client
 
 ```bash
-psql --username=testuser --password bookstack
-  testpwd
+psql --username=<username> --password <database>
+  <password>
 ```
 
 Here are some useful Postgres commands to get started:
@@ -42,9 +48,21 @@ Here are some useful Postgres commands to get started:
 | \dt | List all the tables in the database |
 | \d pages | Show the pages table schema |
 
+### Sync Bookstack with the Vector Store
+
+```bash
+yarn sync
+```
+
+### Search the Vector Store
+
+```bash
+yarn search "<word-or-phrase>"
+```
+
 ## BookStack Data Structures
 
-- API Docs: https://demo.bookstackapp.com/api/docs
+- [Bookstack API Docs](https://demo.bookstackapp.com/api/docs)
 
 ```js
 const shelves = {
