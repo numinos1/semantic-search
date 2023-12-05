@@ -12,7 +12,7 @@ const db = new Database({
   password: process.env.POSTGRES_PASSWORD
 });
 
-const docs = Bookstack({
+const docs = new Bookstack({
   host: process.env.BOOKSTACK_HOST,
   tokenId: process.env.BOOKSTACK_TOKEN_ID,
   tokenSecret: process.env.BOOKSTACK_TOKEN_SECRET
@@ -36,7 +36,7 @@ await db.updateBooks(books);
 console.log('UPDATING chapters');
 
 const chapters = await docs.getChapters();
-const chaptersMap = toMap(chaptersMap);
+const chaptersMap = toMap(chapters);
 await db.updateChapters(chapters);
 
 console.log('UPDATING pages');
@@ -73,7 +73,7 @@ for (let i = 0; i < pageIds.length; i++) {
     page_id: pageId,
     text_weight: 100,
     input: pageTitle,
-    embedding: embedding
+    embedding: JSON.stringify(embedding)
   }]);
 }
 

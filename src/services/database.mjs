@@ -8,7 +8,7 @@ export default class Database {
   /**
    * Constructor
    */
-  constructor() {
+  constructor(opts) {
     this.sql = postgres({
       host: opts.host,
       port: opts.port,
@@ -29,8 +29,12 @@ export default class Database {
    * Update Table
    */
   async updateTable(name, rows) {
+    const sql = this.sql; // hack to fix template literal tag bug
     const cols = Object.keys(rows[0]);
-    const dbList = await this.sql`SELECT ${this.sql(cols)} FROM ${this.sql(name)}`;
+    const dbList = await sql`
+      SELECT ${sql(cols)}
+      FROM ${sql(name)}
+    `;
     const dbMap = new Map(dbList.map(row => ([row.id, row])));
     const insert = [];
     const update = [];
@@ -59,8 +63,8 @@ export default class Database {
     if (insert.length) {
       console.log('INSERT', insert.length, name);
 
-      await this.sql`
-        INSERT INTO ${this.sql(name)} ${this.sql(insert)}
+      await sql`
+        INSERT INTO ${sql(name)} ${sql(insert)}
       `;
     }
     if (update.length) {
@@ -68,9 +72,9 @@ export default class Database {
 
       for (let i = 0; i < update.length; i++) {
         const { id, ...rest } = update[i];
-        await this.sql`
-          UPDATE ${this.sql(name)}
-          SET ${this.sql(rest)}
+        await sql`
+          UPDATE ${sql(name)}
+          SET ${sql(rest)}
           WHERE id = ${id}
         `;
       }
@@ -80,8 +84,8 @@ export default class Database {
 
       for (let i = 0; i < remove.length; i++) {
         const { id } = remove[i];
-        await this.sql`
-          DELETE FROM ${this.sql(name)}
+        await sql`
+          DELETE FROM ${sql(name)}
           WHERE id = ${id}
         `;
       }
@@ -162,7 +166,9 @@ export default class Database {
    * Update Page Content
    */
   updateContent(pageId, html, markdown) {
-    return this.sql`
+    const sql = this.sql; // hack to fix template literal tag bug
+
+    return sql`
       UPDATE pages
       SET ${sql({ html, markdown })}
       WHERE id = ${pageId}
@@ -173,13 +179,15 @@ export default class Database {
    * Update Embeddings
    */
   async updateEmbeddings(pageId, embeddings) {
-    await this.sql`
+    const sql = this.sql; // hack to fix template literal tag bug
+
+    await sql`
       DELETE FROM embeddings
       WHERE page_id = ${pageId}
     `;
-    await this.sql`
+    await sql`
       INSERT INTO embeddings
-      ${sql(JSON.stringify(embeddings))}
+      ${sql(embeddings)}
     `;
   }
 
@@ -187,7 +195,9 @@ export default class Database {
    * Query Embeddings
    */
   queryEmbeddings(embedding, limit = 5) {
-    return this.sql`
+    const sql = this.sql; // hack to fix template literal tag bug
+
+    return sql`
       SELECT id, page_id, input FROM embeddings
       ORDER BY embedding <-> ${JSON.stringify(embedding)}
       LIMIT ${limit}

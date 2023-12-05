@@ -47,6 +47,7 @@ Here are some useful Postgres commands to get started:
 | - | - |
 | \dt | List all the tables in the database |
 | \d pages | Show the pages table schema |
+| \q | Exit PSQL client |
 
 ### Sync Bookstack with the Vector Store
 
@@ -146,3 +147,4 @@ const pages = {
 - [Docker Postress](https://github.com/felipewom/docker-compose-postgres)
 - [Docker PGVector](https://medium.com/@johannes.ocean/setting-up-a-postgres-database-with-the-pgvector-extension-10ab7ff212cc)
 - [PGVector Docs](https://github.com/pgvector/pgvector#docker)
+

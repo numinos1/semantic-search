@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import OpenAILib from 'openai';
 
 const EMBEDDING_MODEL = "text-embedding-ada-002";
 
@@ -11,7 +11,7 @@ export default class OpenAI {
    * Constructor
    */
   constructor({ apiKey }) {
-    this.ai = new OpenAI({ apiKey });
+    this.ai = new OpenAILib({ apiKey });
   }
 
   /**

@@ -7,8 +7,8 @@
   "author": "Andrew Bunker",
   "license": "MIT",
   "scripts": {
-    "update": "node src/update",
-    "sync": "node src/sync"
+    "update": "node src/update.mjs",
+    "sync": "node src/sync.mjs"
   },
   "private": false,
   "dependencies": {
